@@ -1,0 +1,10 @@
+if @comment.new_record?
+  page.replace_html :errors, @comment.errors.full_messages.join("<br/>")
+  page[:errors].show
+else
+  @comments = @comment.commentable.comments.paginate(:page => 1)
+  page.replace_html :comments, :partial => 'comments/list'
+  # page[@comment].visual_effect :highlight
+  page[:new_comment].reset
+  page[:errors].hide
+end

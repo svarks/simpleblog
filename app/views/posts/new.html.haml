@@ -1,0 +1,6 @@
+- title "New Post"
+
+- form_for @post do |f|
+  = render :partial => 'fields', :locals => {:f => f}
+  %p
+    = f.submit "Create"

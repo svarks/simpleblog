@@ -1,0 +1,5 @@
+- title "Edit Comment"
+
+- form_for @comment do |f|
+  = render :partial => 'fields', :locals => {:f => f}
+  = f.submit "Update"

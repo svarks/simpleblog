@@ -1,0 +1,53 @@
+!!!
+%html
+  %head
+    %meta{'http-equiv' => 'Content-Type', :content => 'text/html;charset=UTF-8'}
+    %title
+      = h(yield(:title) || "My Simple Blog")
+    = stylesheet_link_tag 'application'
+    = javascript_include_tag :defaults
+    = yield(:head)
+  %body
+    #preloader{:style => "display:none"}
+      #preloader-spinner
+        %img{:src => "/images/spinner.gif"}
+    
+    #container-wrapper
+      #container
+        #header
+          #logo
+            = link_to "My Simple Blog", root_url
+          #user_status
+            - if user_signed_in?
+              Welcome #{link_to current_user.username, edit_user_registration_path}!
+              Not you? #{link_to "Log out", destroy_user_session_path}
+            - else
+              #{link_to "Sign up", new_user_registration_path} or #{link_to "log in", new_user_session_path}.
+          .clear
+
+        #content
+          .clear
+          .left
+            - flash.each do |name, msg|
+              = content_tag :div, msg, :class => "flash #{name}" if msg.is_a?(String)
+            - if show_title?
+              %h1
+                = link_to yield(:title)
+            = yield
+          .right
+            #menu
+              - if user_signed_in?
+                %p
+                  = link_to "Add new Post", new_post_path
+              %p
+                = link_to "Posts", root_path
+              %p
+                = link_to "About", root_path
+            #tag-cloud
+              %h3
+                Tag Cloud
+              - cache 'tag_cloud' do
+                - tag_cloud_for_posts(%w(l1 l2 l3 l4)) do |tag, css_class|
+                  = link_to tag.name, tag, :class => css_class
+          .clear
+        #footer

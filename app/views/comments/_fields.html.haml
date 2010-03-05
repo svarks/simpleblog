@@ -1,0 +1,11 @@
+= error_messages_for :comment
+- unless user_signed_in?
+  %p
+    = f.label :author_name, 'Name'
+  %p
+    = f.text_field :author_name
+  
+%p
+  = f.label :body, 'Comment'
+%p
+  = f.text_area :body

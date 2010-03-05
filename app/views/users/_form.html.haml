@@ -1,0 +1,20 @@
+- form_for user do |f|
+  %p
+    = f.label :username
+    = errors_for user, :username
+    = f.text_field :username
+  %p
+    = f.label :email, "Email Address"
+    = errors_for user, :email
+    = f.text_field :email
+  %p
+    = f.label :password
+    = errors_for user, :password
+    = f.password_field :password
+  %p
+    = f.label :password_confirmation, "Confirm Password"
+    = errors_for user, :password_confirmation
+    = f.password_field :password_confirmation
+    
+  %p
+    = f.submit "Submit"

@@ -1,0 +1,17 @@
+- unless comments.empty?
+  - for comment in comments
+    = tag :hr unless comments.first == comment
+    - div_for comment do
+      .comment-header
+        %strong
+          = comment.user ? link_to(comment.user.username, comment.user) : h(comment.author_name)
+        %em #{time_ago_in_words comment.created_at} ago
+      .comment-actions
+        - if user_signed_in? && comment.user == current_user
+          = link_to "Edit", edit_comment_path(comment)
+          | #{link_to "Destroy", comment, :method => :delete, :confirm => "Are you sure?"}
+      .clear
+      .comment-content
+        = simple_format comment.body
+- else
+  No one commented yet. Be first!

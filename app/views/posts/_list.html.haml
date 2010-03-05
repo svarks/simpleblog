@@ -1,0 +1,24 @@
+- cache(:page => params[:page] || 1) do
+  - for post in @posts
+    .post
+      .post-left
+        .date
+          #{post.created_at.strftime('%b %d')}
+        .comments
+          = link_to pluralize(post.comments.size, 'comment'), post
+      .post-right
+        %h2
+          = link_to h(post.title), post
+          / %span.comments
+          /   = pluralize(article.comments.size, 'comment')
+        / .author
+        /   Posted by #{h article.user.username} on #{article.created_at.strftime('%b %d, %Y')}
+        .content
+          = simple_format(truncate(post.body, :length => 300, :omission => "...<br/>"+link_to("Read more.", post)))
+        .tags
+          Tags:
+          - post.tags.each do |tag|
+            = link_to tag, tag
+      .clear
+  <br/>
+  = will_paginate @posts

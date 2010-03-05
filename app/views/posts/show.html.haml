@@ -1,0 +1,30 @@
+- title @post.title
+- cache @post do
+  .post
+    .author
+      %em
+        Posted by #{h @post.user.username} at #{@post.created_at.strftime('%b %d, %Y')}
+
+    .content
+      = simple_format @post.body
+
+    .actions
+      = link_to "Back to Posts", posts_path
+      - if @post.user == current_user
+        | #{link_to "Edit", edit_post_path(@post)}
+        | #{link_to "Destroy", @post, :method => :delete, :confirm => "Are you sure?"}
+
+    - unless @post.comments.empty?
+      %h3
+        = pluralize(@post.comments.size, 'comment')
+
+    #comments
+      = render :partial => 'comments/list', :locals => {:comments => @post.comments}
+
+    %h3
+      Add your comment:
+    #errors{:style=>"display:none;"}
+    - @comment = @post.comments.build
+    - remote_form_for @comment, :url => post_comments_path(@post) do |f|
+      = render :partial => 'comments/fields', :locals => {:f => f}
+      = f.submit "Create"
