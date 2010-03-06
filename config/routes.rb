@@ -8,6 +8,8 @@ ActionController::Routing::Routes.draw do |map|
   # map.resources :users
   
   map.devise_for :users
+  # map.resources :users, :only => :show
+  map.resources :users, :only => [:show], :has_many => :posts
   
   map.resources :posts, :has_many => :comments
   map.resources :comments

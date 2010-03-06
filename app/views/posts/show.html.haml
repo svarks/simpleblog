@@ -3,16 +3,17 @@
   .post
     .author
       %em
-        Posted by #{h @post.user.username} at #{@post.created_at.strftime('%b %d, %Y')}
+        Posted by 
+        = link_to @post.user.username, @post.user
+        at #{@post.created_at.strftime('%b %d, %Y')}
 
     .content
       = simple_format @post.body
 
     .actions
       = link_to "Back to Posts", posts_path
-      - if @post.user == current_user
-        | #{link_to "Edit", edit_post_path(@post)}
-        | #{link_to "Destroy", @post, :method => :delete, :confirm => "Are you sure?"}
+      | #{link_to "Edit", edit_post_path(@post)}
+      | #{link_to "Destroy", @post, :method => :delete, :confirm => "Are you sure?"}
 
     - unless @post.comments.empty?
       %h3

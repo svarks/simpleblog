@@ -39,10 +39,13 @@ require 'spec/blueprints'
 end
 
 admin = User.make(:username => "admin")
+user = User.make(:username => "user")
 
 50.times do |i|
-  post = Post.make(:user => admin)
-  (1..10).to_a.rand.times do |i|
-    post.comments.make
+  [user, admin].each do |u|
+    post = Post.make(:user => u)
+    (1..10).to_a.rand.times do |i|
+      post.comments.make
+    end
   end
 end

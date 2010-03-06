@@ -1,0 +1,11 @@
+- title @user.username
+
+%p
+  Member since
+  = @user.created_at
+%p
+  Last login:
+  = @user.last_sign_in_at || "never"
+
+%p
+  = link_to "User's posts", user_posts_path(@user)

@@ -1,4 +1,4 @@
-- cache(:page => params[:page] || 1) do
+- cache(@cache_conditions) do
   - for post in @posts
     .post
       .post-left
@@ -19,6 +19,9 @@
           Tags:
           - post.tags.each do |tag|
             = link_to tag, tag
+        %br
+        .author
+          Posted by #{link_to post.user.username, post.user} at #{post.created_at}
       .clear
   <br/>
   = will_paginate @posts

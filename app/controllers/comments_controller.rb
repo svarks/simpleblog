@@ -37,7 +37,7 @@ class CommentsController < ApplicationController
 protected
   def check_ownership
     unless @comment.user == current_user
-      flash[:alert] = "You can only manage your comments."
+      flash[:alert] = "You can only manage your own comments."
       redirect_to @comment.commentable
     end
   end

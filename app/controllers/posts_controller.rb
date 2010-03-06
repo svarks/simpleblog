@@ -1,11 +1,18 @@
 class PostsController < ApplicationController
   before_filter :authenticate_user!, :except => [:index, :show]
   before_filter :find_post, :only => [:show, :edit, :update, :destroy]
+  before_filter :check_ownership, :only => [:edit, :update, :destroy]
   cache_sweeper :post_sweeper, :only => [:create, :update, :destroy]
   
   def index
-    unless read_fragment({:page => params[:page] || 1})
-      @posts = Post.paginate(:page => params[:page])
+    @cache_conditions = {:page => params[:page] || 1, :conditions => {}}
+    if params[:user_id]
+      @user = User.find(params[:user_id])
+      @cache_conditions[:conditions].merge!(:user_id => @user.id)
+    end
+    
+    unless read_fragment(@cache_conditions)
+      @posts = Post.paginate(@cache_conditions)
     end
     respond_to do |format|
       format.html
@@ -64,5 +71,12 @@ class PostsController < ApplicationController
 protected
   def find_post
     @post = Post.find(params[:id])
+  end
+
+  def check_ownership
+    unless @post.user == current_user
+      flash[:alert] = "You can only manage your own post."
+      redirect_to root_url
+    end
   end
 end

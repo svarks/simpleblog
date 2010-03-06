@@ -30,6 +30,8 @@ Rails::Initializer.run do |config|
   # config.gem "RedCloth"
 end
 
+ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS[:default] = "%B %d, %Y %H:%M"
+ActiveSupport::CoreExtensions::Date::Conversions::DATE_FORMATS[:default] = '%m/%d/%Y'
 
 ### Fix in memory database for tests
 # Update: Looks for the SQLite and SQLite3 adapters for

@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   devise :registerable, :authenticatable, :recoverable, :rememberable, :trackable, :validatable
   # , :confirmable
   
-  has_many :articles
+  has_many :posts
   has_many :comments
   
   attr_accessor :username_or_email
