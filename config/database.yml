@@ -38,3 +38,6 @@ production:
   username: root
   password: 
   # socket: /opt/local/var/run/mysql5/mysqld.sock
+
+cucumber:
+  <<: *TEST

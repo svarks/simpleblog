@@ -64,7 +64,7 @@ class PostsController < ApplicationController
   
   def destroy
     @post.destroy
-    flash[:notice] = "Successfully destroyed article."
+    flash[:notice] = "Successfully destroyed post."
     redirect_to root_url
   end
   
