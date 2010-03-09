@@ -13,6 +13,11 @@ class Post < ActiveRecord::Base
     5
   end
   
+  def formatted_body
+    markdown = RDiscount.new(body, :smart, :filter_html)
+    markdown.to_html
+  end
+  
   def to_param
     "#{id}-#{title.gsub(/[^a-z1-9]+/i, '-')}"
   end

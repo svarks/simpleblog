@@ -14,7 +14,8 @@
         / .author
         /   Posted by #{h article.user.username} on #{article.created_at.strftime('%b %d, %Y')}
         .content
-          = simple_format(truncate(post.body, :length => 300, :omission => "...<br/>"+link_to("Read more.", post)))
+          =# simple_format(truncate(post.body, :length => 300, :omission => "...<br/>"+link_to("Read more.", post)))
+          = post.formatted_body
         .tags
           Tags:
           - post.tags.each do |tag|

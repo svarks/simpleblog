@@ -25,6 +25,7 @@ Rails::Initializer.run do |config|
   config.gem "devise"
   config.gem "warden"
   config.gem "will_paginate"
+  config.gem "rdiscount"
 
   # config.gem "inherited_resources", :version => "1.0.4"
   # config.gem "RedCloth"

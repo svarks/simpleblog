@@ -32,7 +32,7 @@
 #   )
 # end
 
-require 'spec/blueprints'
+require File.expand_path(File.dirname(__FILE__) + '/blueprints')
 
 [User, Post, Tag].each do |model|
   model.delete_all
