@@ -1,3 +1,9 @@
 == My Simple Blog
 
 Just a simple blog application.
+
+Gems I have user here:
+- Haml + Sass
+- Devise for authentication
+- Rspec
+- Cucumber + Webrat + Remarkable
