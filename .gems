@@ -2,3 +2,5 @@ rdiscount
 will_paginate
 warden
 devise
+machinist
+faker
