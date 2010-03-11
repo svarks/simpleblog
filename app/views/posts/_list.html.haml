@@ -9,6 +9,8 @@
       .post-right
         %h2
           = link_to h(post.title), post
+        .author
+          Posted by #{link_to post.user.username, post.user} at #{post.created_at}
           / %span.comments
           /   = pluralize(article.comments.size, 'comment')
         / .author
@@ -20,9 +22,6 @@
           Tags:
           - post.tags.each do |tag|
             = link_to tag, tag
-        %br
-        .author
-          Posted by #{link_to post.user.username, post.user} at #{post.created_at}
       .clear
   <br/>
   = will_paginate @posts

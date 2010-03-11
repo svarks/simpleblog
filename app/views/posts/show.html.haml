@@ -10,6 +10,11 @@
     .content
       = @post.formatted_body
 
+    .tags
+      Tags:
+      - @post.tags.each do |tag|
+        = link_to tag, tag
+
     .actions
       = link_to "Back to Posts", posts_path
       | #{link_to "Edit", edit_post_path(@post)}
