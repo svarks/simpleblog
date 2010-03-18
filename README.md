@@ -6,5 +6,7 @@ Live demo available here: http://simpleblog.heroku.com/
 Gems I have user here:
 - Haml + Sass
 - Devise for authentication
-- Rspec
-- Cucumber + Webrat + Remarkable
+- rdiscount (markdown)
+- Rspec + Remarkable
+- Cucumber + Webrat
+- Machinist
