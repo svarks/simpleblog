@@ -1,9 +1,11 @@
-== My Simple Blog
+My Simple Blog
+==============
 
 Just a simple blog application.
 Live demo available here: http://simpleblog.heroku.com/
 
-Gems I have user here:
+Gems I have used here:
+
 - Haml + Sass
 - Devise for authentication
 - rdiscount (markdown)
