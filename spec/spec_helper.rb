@@ -7,7 +7,7 @@ require 'spec/rails'
 require 'remarkable_rails'
 require "webrat"
 
-require File.expand_path(File.dirname(__FILE__) + "../db/blueprints")
+require File.expand_path(File.dirname(__FILE__) + "/../db/blueprints")
 # devise helpers
 class ActionController::TestCase
   include Devise::TestHelpers

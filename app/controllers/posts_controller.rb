@@ -76,7 +76,7 @@ protected
   def check_ownership
     unless @post.user == current_user
       flash[:alert] = "You can only manage your own post."
-      redirect_to root_url
+      redirect_to @post
     end
   end
 end

@@ -1,58 +1,116 @@
 require 'spec_helper'
 
 describe PostsController do
-  integrate_views
-  
+  # integrate_views
+
   before do
     @post = Post.make
-    3.times { @post.comments.make }
   end
-  
-  it "render index" do
-    get :index
-    response.should be_success
-  end
-  
-  it "render show" do
-    get :show, :id => @post.to_param
-    response.should be_success
-  end
-  
-  describe "(not signed in)" do
-    it "redirect for :new" do
-      get :new
-      response.should be_redirect
-    end
-  end
-  
-  describe "(signed in)" do
-    before do
-      @user = User.make
-      sign_in :user, @user
-    end
-    it "renders :new" do
-      get :new
+
+  describe "index action" do
+    it "should be successful" do
+      get :index
       response.should be_success
     end
-    
-    it "create post" do
-      proc {
-        post :create, :post => {:title => "Post Title", :body => "Post Body"}
-      }.should change(Post, :count).by(1)
-      response.should be_redirect
+  end
+  
+  describe "show action" do
+    it "should be successful" do
+      get :show, :id => @post.to_param
+      response.should be_success
     end
-    
-    it "renders :edit" do
-      get :edit, :id => Post.first.to_param
+  end
+  
+  describe "create action" do
+    describe "if user logged in" do
+      before do
+        sign_in @post.user
+      end
+      it "should be successful" do
+        post :create, :post => {:title => "Post Title", :body => "Post body"}
+        assigns[:post].should_not be_new_record
+        response.should redirect_to(post_url(assigns[:post]))
+      end
     end
-    
-    it "updates post" do
-      put :update, :id => @post.to_param, :post => {:title => "New Title", :body => "New Body"}
-      response.should be_redirect
+    describe "if user guest" do
+      it "should be forbidden" do
+        proc {
+          post :create, :post => {:title => "Post Title", :body => "Post body"}
+        }.should_not change(Post, :count)
+        response.should redirect_to(new_user_session_url(:unauthenticated => true))
+      end
     end
-    
-    it "deletes post" do
-      
+  end
+  
+  describe "update action" do
+    describe "if user logged in" do
+      before do
+        sign_in @post.user
+      end
+      describe "as post owner" do
+        it "should be successful" do
+          params = {:title => "New Post Title", :body => "New Post body"}
+          put :update, :id => @post.to_param, :post => params
+          assigns[:post].title.should == params[:title]
+          assigns[:post].body.should == params[:body]
+          assigns[:post].errors.should be_empty
+          response.should redirect_to(post_url(assigns[:post]))
+        end
+      end
+      describe "as not post owner" do
+        before do
+          sign_in User.make
+        end
+        it "should be forbidden" do
+          params = {:title => "New Post Title", :body => "New Post body"}
+          put :update, :id => @post.to_param, :post => params
+          assigns[:post].title.should_not == params[:title]
+          assigns[:post].body.should_not == params[:body]
+          response.should redirect_to(post_url(assigns[:post]))
+        end
+      end
+    end
+    describe "if user guest" do
+      it "should be forbidden" do
+        params = {:title => "New Post Title", :body => "New Post body"}
+        put :update, :id => @post.to_param, :post => params
+        response.should redirect_to(new_user_session_url(:unauthenticated => true))
+      end
+    end
+  end
+  
+  describe "destroy action" do
+    describe "if user logged in" do
+      before do
+        sign_in @post.user
+      end
+      describe "as post owner" do
+        it "should be successful" do
+          proc {
+            delete :destroy, :id => @post.to_param
+          }.should change(Post, :count).by(-1)
+          response.should redirect_to(root_url)
+        end
+      end
+      describe "as not post owner" do
+        before do
+          sign_in User.make
+        end
+        it "should be forbidden" do
+          proc {
+            delete :destroy, :id => @post.to_param
+          }.should_not change(Post, :count)
+          response.should redirect_to(post_url(assigns[:post]))
+        end
+      end
+    end
+    describe "if user guest" do
+      it "should be forbidden" do
+        proc {
+          delete :destroy, :id => @post.to_param
+        }.should_not change(Post, :count)
+        response.should redirect_to(new_user_session_url(:unauthenticated => true))
+      end
     end
   end
 

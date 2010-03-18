@@ -1,0 +1,3 @@
+ENV['AUTOTEST'] = 'true'
+ENV['RSPEC'] = "true"
+ENV['AUTOFEATURE'] = "true"
