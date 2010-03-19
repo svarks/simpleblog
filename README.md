@@ -2,7 +2,7 @@ My Simple Blog
 ==============
 
 Just a simple blog application.
-Live demo available here: http://simpleblog.heroku.com/
+Live demo available here: <http://simpleblog.heroku.com/>
 
 Gems I have used here:
 
